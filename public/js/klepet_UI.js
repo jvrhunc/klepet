@@ -137,18 +137,16 @@ function dodajSmeske(vhodnoBesedilo) {
 
 function dodajSlike(vhodnoBesedilo){
   var besedilo = vhodnoBesedilo.split(' ');
-  var regex = new RegExp((/^(https:\/\/|http:\/\/)\S+(.jpg|.gif|.png)$/),'g');
+  var regex = new RegExp((/(https:\/\/|http:\/\/)\S+(.jpg|.gif|.png)/),'g');
   
-  for(var i = 0; i < besedilo.length; i++){
-    var matchTable = besedilo[i].match(regex);
-  }
+  regex = vhodnoBesedilo.match(regex);
   
-  if(matchTable == null){
+  if(regex == null){
     return vhodnoBesedilo;
   } else {
-   for(var i = 0; i < matchTable.length; i++){
-     matchTable[i] += matchTable[i].replace(vhodnoBesedilo, '<img id=\'slika\' src=\'' + matchTable[i] + '\' />');
-   } 
-   return matchTable.join(' ');
+   for(var i = 0; i < regex.length; i++){
+     regex[i] += regex[i].replace(regex[i], '<img id=\'slika\' src=\'' + regex[i] + '\' />');
+   }
+   return regex.join('  ');
   }
 }
