@@ -151,17 +151,4 @@ function dodajSlike(vhodnoBesedilo){
    } 
    return matchTable.join(' ');
   }
-  
-  
-  /*
-  for(var i = 0; i < besedilo.length; i++){
-    var found = besedilo[i].match(regex);
-  }
-  
-    found[i] = found[i].replace(besedilo[i], '<img id=\'slika\' src=\'' + found[i] + '\' />');
-  
-  
-  return vhodnoBesedilo;
-  return tabela.join(' ');
-  */
 }
