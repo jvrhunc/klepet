@@ -1,7 +1,9 @@
 function divElementEnostavniTekst(sporocilo) {
   var jeSmesko = sporocilo.indexOf('http://sandbox.lavbic.net/teaching/OIS/gradivo/') > -1;
-  if (jeSmesko) {
-    sporocilo = sporocilo.replace(/\</g, '&lt;').replace(/\>/g, '&gt;').replace('&lt;img', '<img').replace('png\' /&gt;', 'png\' />');
+  var jeSlika = sporocilo.indexOf('<img') > -1;
+  if (jeSmesko || jeSlika) {
+    sporocilo = sporocilo.replace(/\</g, '&lt;').replace(/\>/g, '&gt;').replace('&lt;img', '<img').replace('png\' /&gt;', 'png\' />')
+                         .replace('jpg\' /&gt;', 'jpg\' />').replace('gif\' /&gt;', 'gif\' />');
     return $('<div style="font-weight: bold"></div>').html(sporocilo);
   } else {
     return $('<div style="font-weight: bold;"></div>').text(sporocilo);
@@ -15,6 +17,7 @@ function divElementHtmlTekst(sporocilo) {
 function procesirajVnosUporabnika(klepetApp, socket) {
   var sporocilo = $('#poslji-sporocilo').val();
   sporocilo = dodajSmeske(sporocilo);
+  sporocilo = dodajSlike(sporocilo);
   var sistemskoSporocilo;
 
   if (sporocilo.charAt(0) == '/') {
@@ -130,4 +133,35 @@ function dodajSmeske(vhodnoBesedilo) {
       preslikovalnaTabela[smesko] + "' />");
   }
   return vhodnoBesedilo;
+}
+
+function dodajSlike(vhodnoBesedilo){
+  var besedilo = vhodnoBesedilo.split(' ');
+  var regex = new RegExp((/^(https:\/\/|http:\/\/)\S+(.jpg|.gif|.png)$/),'g');
+  
+  for(var i = 0; i < besedilo.length; i++){
+    var matchTable = besedilo[i].match(regex);
+  }
+  
+  if(matchTable == null){
+    return vhodnoBesedilo;
+  } else {
+   for(var i = 0; i < matchTable.length; i++){
+     matchTable[i] += matchTable[i].replace(vhodnoBesedilo, '<img id=\'slika\' src=\'' + matchTable[i] + '\' />');
+   } 
+   return matchTable.join(' ');
+  }
+  
+  
+  /*
+  for(var i = 0; i < besedilo.length; i++){
+    var found = besedilo[i].match(regex);
+  }
+  
+    found[i] = found[i].replace(besedilo[i], '<img id=\'slika\' src=\'' + found[i] + '\' />');
+  
+  
+  return vhodnoBesedilo;
+  return tabela.join(' ');
+  */
 }
