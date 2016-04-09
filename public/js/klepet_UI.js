@@ -126,6 +126,14 @@ $(document).ready(function() {
     return false;
   });
   
+  socket.on('dregljaj', function() {
+    tresi = $('#vsebina').jrumble();
+      
+      tresi.trigger('startRumble');
+      
+      setTimeout(function(){
+        tresi.trigger('stopRumble');}, 1500);
+  });
   
 });
 
